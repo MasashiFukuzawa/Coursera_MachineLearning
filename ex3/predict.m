@@ -21,13 +21,16 @@ p = zeros(size(X, 1), 1);
 %       can use max(A, [], 2) to obtain the max for each row.
 %
 
+% size(Theta1) = [25 401]
+% size(Theta2) = [10 26]
 
+% size(X) = [5000 401]
+X = [ones(m, 1) X];
 
+a2 = sigmoid(X * Theta1');  % size(sigmoid(X * Theta1')) = [5000 25]
+a2 = [ones(m, 1) a2];       % size(A2) = [5000 26]
 
-
-
-
-
+[theHighestProbability, p] = max(sigmoid(a2 * Theta2'), [], 2)
 
 % =========================================================================
 
