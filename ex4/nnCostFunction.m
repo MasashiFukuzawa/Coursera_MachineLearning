@@ -62,23 +62,34 @@ Theta2_grad = zeros(size(Theta2));
 %               and Theta2_grad from Part 2.
 %
 
+a_1 = X;
+a_1 = [ones(m, 1) a_1];
+z_2 = a_1 * Theta1';
+a_2 = sigmoid(z_2);
+a_2 = [ones(m, 1) a_2];
+z_3 = a_2 * Theta2';
+a_3 = sigmoid(z_3);
+hx = a_3;
 
+% 実際値の部分を1に変換
+% ex.) y(100) = 5 の場合、100行目の5列目に1が入る
+Y = zeros(m, num_labels);
+for k = 1:size(y)
+    Y(k, y(k)) = 1;
+end
 
+J = -1 / m * sum(sum(Y .* log(hx) + (1 - Y) .* log(1 - hx)));
+J = J + lambda / (2 * m) * (sum(sum(Theta1(:, 2:end) .^ 2)) + sum(sum(Theta2(:, 2:end) .^ 2)));
 
+delta_3 = a_3 - Y;
+delta_2 = (delta_3 * Theta2) .* sigmoidGradient([ones(size(z_2, 1), 1) z_2]);
+delta_2 = delta_2(:, 2:end);
 
+reg_2 = lambda / m * [zeros(size(Theta2, 1), 1) Theta2(:, 2:end)];
+reg_1 = lambda / m * [zeros(size(Theta1, 1), 1) Theta1(:, 2:end)];
 
-
-
-
-
-
-
-
-
-
-
-
-
+Theta2_grad = 1 / m * (delta_3' * a_2) + reg_2;
+Theta1_grad = 1 / m * (delta_2' * a_1) + reg_1;
 
 % -------------------------------------------------------------
 
