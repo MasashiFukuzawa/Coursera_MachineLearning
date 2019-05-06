@@ -26,12 +26,16 @@ centroids = zeros(K, n);
 % Note: You can use a for-loop over the centroids to compute this.
 %
 
-
-
-
-
-
-
+for k = 1:K
+    % 各クラスタに分類されたXのインデックス番号を抽出
+    same_cluster_idx = find(idx == k);
+    
+    % 各クラスタに分類されたXの数を算出
+    examples_num = size(same_cluster_idx, 1);
+    
+    % 重心の位置を計算
+    centroids(k, :) = sum(X(same_cluster_idx, :)) / examples_num;
+end
 
 % =============================================================
 

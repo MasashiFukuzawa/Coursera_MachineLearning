@@ -21,13 +21,39 @@ idx = zeros(size(X,1), 1);
 % Note: You can use a for-loop over the examples to compute this.
 %
 
+m = size(X, 1);
+for i = 1:m
+    % ||X -μ||^2の初期値は無限大として設定(数値が十分に大きければ何でも問題なし)
+    d_min = inf;
+    idx_min = 0;
+    
+    for j = 1:K
+        diff = X(i,:) - centroids(j,:);
+        d = diff * diff';
+        
+        % jを1~Kまで繰り返した時に最小値がidx(i)に入る
+        if d <= d_min
+            d_min = d;
+            idx(i) = j;
+        end
+    end
+end
 
-
-
-
-
+% 課題提出時は問題なかったがオプションでエラーが出た際の実装内容
+% m = size(X, 1);
+% d = zeros(m, 3);
+% 
+% for i = 1:m
+%     for j = 1:K
+%         diff = X(i, :) - centroids(j, :);
+%         d(i, j) = diff * diff';
+%     end
+%     d_col_i = d(i, :);
+%     d_col_i_min = min(d_col_i);
+%     
+%     idx(i) = find(d_col_i == d_col_i_min);
+% end
 
 % =============================================================
 
 end
-
